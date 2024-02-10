@@ -1,5 +1,6 @@
 import slugify from "slugify";
 import categoryModel from "../models/category.model.js";
+import productModel from "../models/product.model.js";
 
 export const createCategoryController = async (req, res) => {
   try {
@@ -111,5 +112,20 @@ export const deleteCategoryController = async (req, res) => {
       message: "Error in delete category controller",
       success: false,
     });
+  }
+};
+
+export const getCategoryProductController = async (req, res) => {
+  try {
+    const category = await categoryModel.find({ slug: req.params.slug });
+    const product = await productModel.find({ category }).populate("category");
+    res.status(200).send({
+      success: true,
+      message: "got category product",
+      product,
+      category,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

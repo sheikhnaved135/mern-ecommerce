@@ -4,6 +4,7 @@ import {
   createCategoryController,
   deleteCategoryController,
   getAllCategory,
+  getCategoryProductController,
   getSingleCategory,
   updateCategoryController,
 } from "../controller/category.controller.js";
@@ -34,4 +35,5 @@ router.delete(
   deleteCategoryController
 );
 
+router.get("/get-category/:slug", getCategoryProductController);
 export default router;

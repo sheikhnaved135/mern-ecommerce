@@ -2,6 +2,7 @@ import slugify from "slugify";
 import productModel from "../models/product.model.js";
 import fs from "fs";
 import { AsyncResource } from "async_hooks";
+import { resourceLimits } from "worker_threads";
 export const createProductController = async (req, res) => {
   try {
     const { name, slug, description, price, category, quantity, shipping } =
@@ -93,7 +94,7 @@ export const getSingleProductController = async (req, res) => {
       .findOne({ slug: req.params.slug })
       .select("-photo")
       .populate("category");
-    res.status(200).send({
+    return res.status(200).send({
       message: "Product found Successfully",
       success: true,
       product,
@@ -231,5 +232,61 @@ export const productListController = async (req, res) => {
       success: false,
       error,
     });
+  }
+};
+
+export const searchProductController = async (req, res) => {
+  try {
+    try {
+      const keywords = req.params.search;
+      if (!keywords) {
+        return res.send({
+          success: false,
+          message: "Please enter product name",
+        });
+      }
+      const results = await productModel
+        .find({
+          $or: [
+            {
+              name: { $regex: keywords, $options: "i" },
+            },
+            { description: { $regex: keywords, $options: "i" } },
+          ],
+        })
+        .select("-photo");
+      return res.status(200).send({
+        success: true,
+        message: "product searched",
+        results,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "searchProductController error",
+    });
+  }
+};
+
+export const similarProductController = async (req, res) => {
+  try {
+    const { pid, cid } = req.params;
+    const product = await productModel
+      .find({
+        category: cid,
+        _id: { $ne: pid },
+      })
+      .select("-photo");
+    return res.status(200).send({
+      message: "similar product success",
+      success: true,
+      product,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

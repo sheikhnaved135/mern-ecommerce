@@ -33,7 +33,7 @@ const PORT = process.env.PORT || 8080;
 //   res.sendFile(path.join(__dirname, "./client/dist/index.html"));
 // });
 app.get("/", (req, res) => {
-  res.send({ message: "hello commerce" });
+  res.send({ message: "hello ecommerce" });
 });
 
 app.listen(PORT, () => {

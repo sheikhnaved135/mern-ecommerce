@@ -7,6 +7,8 @@ import {
   getSingleProductController,
   productFilterController,
   productListController,
+  searchProductController,
+  similarProductController,
   totalCountController,
   updateProductController,
 } from "../controller/product.controller.js";
@@ -43,4 +45,7 @@ router.get("/total-count", totalCountController);
 
 router.get("/product-list/:page", productListController);
 
+router.get("/search/:search", searchProductController);
+
+router.get("/similar-product/:pid/:cid", similarProductController);
 export default router;
