@@ -27,7 +27,7 @@ router.post("/checkout", async (req, res) => {
       line_items: lineItems,
       mode: "payment",
       success_url: process.env.SUCCESS_URL,
-      cancel_url: process.env.SUCCESS_URL,
+      cancel_url: process.env.CANCEL_URL,
     });
 
     res.status(200).send({
