@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.routes.js";
 import cors from "cors";
 import categoryRoutes from "./routes/category.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 // import path from "path";
 // import { fileURLToPath } from "url";
 const app = express();
@@ -24,6 +25,7 @@ app.use(cors());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
+app.use("/api/v1/payment", paymentRoutes);
 //config database
 connectDb();
 
